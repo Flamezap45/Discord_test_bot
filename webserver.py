@@ -1,19 +1,14 @@
-# web server to keep replit awake 
-from flask import Flask
-from threading import Thread
+  from flask import Flask
+  from threading import Thread
 
-#defines as a flask app
-app = Flask(__name__)
+  app = Flask(__name__)
 
-# defines the home page, and prints "Hello, I am alive!"
-@app.route('/')
-def home():
-  return "Hello, I am alive!"
+  @app.route('/')
+  def home():
+      return "Hello, I am alive!"  # Koyeb health checks require this
 
-# defines the host and port
-def start_server():
-  app.run(host='0.0.0.0', port=8000)
+  def run():  # Renamed from `start_server` to match your main.py
+      app.run(host='0.0.0.0', port=8000)  # Must use port 8000 for Koyeb
 
-# keeps replit awake
-def keep_alive():
-  Thread(target=run).start()
+  def keep_alive():
+      Thread(target=run).start()

@@ -1,28 +1,23 @@
 import discord
 from discord.ext import commands
-from webserver import start_server
-from threading import Thread
+from webserver import keep_alive  # Import the correct function
 import os
 
-# starts the webserver
-Thread(target=start_server).start()
+# Start Flask server (critical for Koyeb health checks)
+keep_alive()  # Uses the renamed `run()` function from webserver.py
 
-# defines discord intentions
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-# defines bot command prefix 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# prints when the bot is ready
 @bot.event
-async def on_ready(): 
-  print(f"Logged in as {bot.user}")
+async def on_ready():
+    print(f"Logged in as {bot.user}")
 
-# ping command
 @bot.command()
 async def ping(ctx):
-  await ctx.send('pong')
+    await ctx.send('pong')
 
 bot.run(os.environ['DISCORD_TOKEN'])
